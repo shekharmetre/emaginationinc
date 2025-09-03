@@ -1,6 +1,6 @@
+import BadgeTag from "@/components/BadgeTag";
 import { ReactNode } from "react";
 import { ArrowRight, LucideIcon } from "lucide-react";
-import BadgeTag from "@/components/BadgeTag";
 
 interface SectionHeaderProps {
   badgeIcon?: LucideIcon | null;
@@ -17,24 +17,22 @@ interface SectionHeaderProps {
 
 export function SectionHeader({
   badgeIcon,
-  badgeText,
   title,
   highlight,
   description,
-  align = "center",
   buttonText,
   onButtonClick,
   titleClassName,
   buttonIcon = <ArrowRight className="ml-2 h-5 w-5 inline" />,
 }: SectionHeaderProps) {
   return (
-    <div className={`md:text-center text-center`}>
-      <BadgeTag icon={badgeIcon ? badgeIcon : null} text="Our Portfolio" />
+    <div className="md:text-center text-center">
+      <BadgeTag icon={badgeIcon || null} text="Our Portfolio" />
 
       <h2 className={` text-start md:text-center md:text-5xl font-bold mb-6 text-white ${titleClassName ? titleClassName : "text-[2.5rem]"}`}>
         {title}{" "}
         {highlight && (
-          <span className="bg-gradient-to-r from-purple-600 to-blue-700 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-purple-600 to-blue-700 bg-clip-text text-transparent ">
             {highlight}
           </span>
         )}

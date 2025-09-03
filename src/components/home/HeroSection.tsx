@@ -1,13 +1,13 @@
 "use client";
 
-import { ArrowRight, Play, Sparkles } from "lucide-react";
-import Button from "@/components/buttons/Button";
 import BadgeTag from "@/components/BadgeTag";
+import Button from "@/components/buttons/Button";
 import { motion, Variants } from "framer-motion";
+import { ArrowRight, Play, Sparkles } from "lucide-react";
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 40 },
-  visible: (custom: number = 0) => ({
+  visible: (custom = 0) => ({
     opacity: 1,
     y: 0,
     transition: {
@@ -134,7 +134,6 @@ const HeroSection = () => {
 
             <Button
               variant="ghost"
-              size="xl"
               className="group btn-ghost-magical flex gap-2 border-1 p-3 rounded-xl"
             >
               <Play className="ghost-magical h-5 w-5 group-hover:scale-110 transition-transform" />

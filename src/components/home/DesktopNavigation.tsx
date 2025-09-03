@@ -43,7 +43,7 @@ const DesktopNavigation = () => {
           </nav>
 
           {/* CTA Button */}
-          <Button variant="magical" size="lg">
+          <Button variant="primary">
             Plan Your Event
           </Button>
         </div>

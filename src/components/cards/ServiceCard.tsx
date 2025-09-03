@@ -1,6 +1,6 @@
-import { LucideIcon } from "lucide-react";
-import { ArrowRight, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ArrowRight, CheckCircle } from "lucide-react";
+import { LucideIcon } from "lucide-react";
 
 interface ServiceCardProps {
   icon: LucideIcon; // Lucide icon component

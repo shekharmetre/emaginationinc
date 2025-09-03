@@ -1,13 +1,12 @@
 import { Metadata } from 'next';
 import * as React from 'react';
 
-import '@/styles/globals.css';
+import Footer from '@/components/Footer';
+import Providers from '@/components/providers';
+import { siteConfig } from '@/constant/config';
 // !STARTERCONF This is for demo purposes, remove @/styles/colors.css import immediately
 import '@/styles/colors.css';
-
-import { siteConfig } from '@/constant/config';
-import Providers from '@/components/providers';
-import Footer from '@/components/Footer';
+import '@/styles/globals.css';
 
 // !STARTERCONF Change these default meta
 // !STARTERCONF Look at @/constant/config to change them

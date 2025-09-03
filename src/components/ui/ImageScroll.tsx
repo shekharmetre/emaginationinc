@@ -1,8 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import { useRef, useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import Image from "next/image";
 
 interface ScrollableImageGalleryProps {
   images: string[];
@@ -20,7 +20,7 @@ export default function ScrollableImageGallery({
 
   const scroll = (direction: "left" | "right") => {
     if (scrollRef.current) {
-      const { clientWidth, scrollLeft } = scrollRef.current;
+      const { clientWidth } = scrollRef.current;
       const newIndex =
         direction === "left"
           ? Math.max(0, activeIndex - 1)

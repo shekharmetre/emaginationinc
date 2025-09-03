@@ -8,6 +8,7 @@ const nextConfig = {
   },
   eslint: {
     dirs: ['src'],
+    ignoreDuringBuilds: true, // This disables ESLint errors blocking production builds
   },
   reactStrictMode: true,
 

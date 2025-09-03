@@ -1,16 +1,12 @@
-import Button from "@/components/buttons/Button";
 import { ServiceCard } from "@/components/cards/ServiceCard";
 import { ScrollableCardWrapper } from "@/components/ui/scrollable-wrapper";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import {
+  ArrowRight,
   Building2,
   Heart,
-  Cake,
-  Users,
-  Monitor,
-  ArrowRight,
   Sparkles,
-  CheckCircle
+  Users
 } from "lucide-react";
 
 
@@ -64,7 +60,7 @@ const ServicesSection = () => {
         {/* Section Header */}
         <SectionHeader title="Magical experiences for every" highlight="occassions" badgeIcon={Sparkles} titleClassName="text-3xl " badgeText="Our Services" description="From Initionmate gatherings to grand celebrations,we transform your vision into reality with our comprehensive event Management services" />
 
-        <ScrollableCardWrapper classNamed="md:mt-5 mt-2">
+        <ScrollableCardWrapper className="md:mt-5 mt-2">
           {services.map((item) => (
             <ServiceCard key={item.title} {...item} />
           ))}

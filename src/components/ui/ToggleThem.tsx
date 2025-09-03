@@ -6,7 +6,6 @@ const ToggleTheme: React.FC = () => {
   const { resolvedTheme, setTheme } = useTheme();
 
   const toggleTheme = () => {
-    console.log("toggel then")
     setTheme(resolvedTheme === 'light' ? 'dark' : 'light');
   };
 

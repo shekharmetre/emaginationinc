@@ -22,14 +22,12 @@ function shuffle<T>(arr: T[]): T[] {
   return copy;
 }
 
-export function getUniquePageItems<T>(
-  data: T[],
+export function getUniquePageItems(
+  data: { asset_id: string; display_name: string; filename: string; format: string; secure_url: string; }[],
   page: number,
   usedIndexes: number[],
-  pageSize: number = 10
-): T[] {
-  console.log("this is used indexes", usedIndexes)
-  // filter out already u
+  pageSize = 10
+): { id: string; name: string; filename: string; format: string; url: string; }[] {
   const maxPage = Math.ceil(data.length / pageSize);
   if (page > maxPage) return [];
   const availableIndexes = data
@@ -46,5 +44,13 @@ export function getUniquePageItems<T>(
   // add to usedIndexes (so next time they won’t repeat)
   usedIndexes.push(...newIndexes);
 
-  return newIndexes.map((i) => data[i]);
+  const pageItems = newIndexes.map((i) => data[i]);
+
+  return pageItems.map((img: { asset_id: string; display_name: string; filename: string; format: string; secure_url: string; }) => ({
+    id: img?.asset_id,
+    name: img.display_name || img.filename,
+    filename: img.filename,
+    format: img.format,
+    url: img.secure_url,
+  }));
 }

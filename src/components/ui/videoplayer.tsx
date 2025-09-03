@@ -1,14 +1,13 @@
 "use client";
-import React, { useRef, useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 
 interface VideoPlayerProps {
   src: string;
   poster?: string;
   className?: string;
-  type?: string; // e.g. "video/mp4"
 }
 
-export default function VideoPlayer({ src, poster, className, type = "video/mp4" }: VideoPlayerProps) {
+export default function VideoPlayer({ src, poster, className }: VideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -45,6 +44,7 @@ export default function VideoPlayer({ src, poster, className, type = "video/mp4"
     <video
       ref={videoRef}
       src={src}
+      poster={poster}
       className={className + "w-full object-fill h-[14rem]"}
       muted
       playsInline

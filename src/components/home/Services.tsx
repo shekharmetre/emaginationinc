@@ -1,6 +1,6 @@
 "use client";
-import { Diamond, Gem, Heart, SquareCheckBig, Star } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
+import { Gem, Heart, SquareCheckBig, Star } from "lucide-react";
 
 const services = [
   {
@@ -38,7 +38,7 @@ const containerVariants = {
   },
 };
 
-const cardVariant = {
+const cardVariant: Variants = {
   hidden: (i: number) => ({
     opacity: 0,
     x: i % 2 === 0 ? -60 : 60,
@@ -46,7 +46,7 @@ const cardVariant = {
   visible: {
     opacity: 1,
     x: 0,
-    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as const },
   },
 };
 

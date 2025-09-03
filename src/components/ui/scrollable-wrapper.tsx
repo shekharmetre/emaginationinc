@@ -2,12 +2,12 @@ import React from "react";
 
 interface ScrollableCardWrapperProps {
   children: React.ReactNode;
-  classNamed: string
+  className: string
 }
 
-export function ScrollableCardWrapper({ children, classNamed }: ScrollableCardWrapperProps) {
+export function ScrollableCardWrapper({ children, className }: ScrollableCardWrapperProps) {
   return (
-    <div className={`overflow-x-auto scrollbar-hide ${classNamed}`}>
+    <div className={`overflow-x-auto scrollbar-hide ${className}`}>
       <div
         className="
           flex gap-6

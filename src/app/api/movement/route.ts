@@ -1,13 +1,42 @@
-// app/api/images/route.ts
 import cloudinary from "@/config/cloudinary";
-import { NextResponse } from "next/server";
 import { getUniquePageItems } from "@/lib/helper";
+import { type NextRequest, NextResponse } from "next/server";
 
-// keep track of indexes & category across requests
-let usedIndexes: number[] = [];
-let lastCategory = "";
+interface CloudinaryResource {
+  asset_id: string;
+  public_id: string;
+  format: string;
+  version: number;
+  resource_type: 'image' | 'video';
+  type: string;
+  created_at: string;
+  bytes: number;
+  width: number;
+  height: number;
+  folder: string;
+  url: string;
+  secure_url: string;
+}
 
-export async function POST(req: Request) {
+interface GalleryImage {
+  asset_id: string;
+  display_name: string;
+  filename: string;
+  format: string;
+  secure_url: string;
+}
+
+function mapCloudinaryResources(resources: CloudinaryResource[]): GalleryImage[] {
+  return resources.map(item => ({
+    asset_id: item.asset_id,
+    display_name: item.public_id || "Unnamed",
+    filename: item.public_id?.split('/').pop() || "No Filename",
+    format: item.format,
+    secure_url: item.secure_url,
+  }));
+}
+
+export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
 
@@ -16,35 +45,24 @@ export async function POST(req: Request) {
     const category = body.category || "wedding";
     const folder = body.folder || "emaginations-images/all";
 
-    // Reset usedIndexes when category changes
-    if (category !== lastCategory) {
-      usedIndexes = [];
-      lastCategory = category;
-    }
-
-    // Fetch images (Cloudinary max 1000 per search)
+    // Fetch images from Cloudinary
     const { resources } = await cloudinary.search
       .expression(`folder:${folder}`)
-      .max_results(80) // pull more so we can randomize across pages
+      .max_results(80)
       .execute();
 
-    const response = getUniquePageItems(resources, page, usedIndexes, limit);
+    // Transform image data to required shape
+    const readyData = mapCloudinaryResources(resources);
 
-    if (!response || response.length === 0) {
-      return NextResponse.json({ resources: [] });
+    // Paginate/Select page from transformed data
+    const response = getUniquePageItems(readyData, page, [], limit);
+
+    // Return images for this page
+    return NextResponse.json({ resources: response });
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      console.error("Cloudinary fetch error:", err.message);
     }
-
-    const formatted = response.map((img: any) => ({
-      id: img?.asset_id,
-      name: img.display_name || img.filename,
-      filename: img.filename,
-      format: img.format,
-      url: img.secure_url,
-    }));
-
-    return NextResponse.json({ resources: formatted });
-  } catch (err: any) {
-    console.error("Cloudinary fetch error:", err);
     return NextResponse.json(
       { error: "Failed to fetch images" },
       { status: 500 }

@@ -1,5 +1,3 @@
-import Image from "next/image";
-import { Building2, LucideIcon } from "lucide-react";
 import ScrollableImageGallery from "@/components/ui/ImageScroll";
 
 interface TagProps {
@@ -7,23 +5,26 @@ interface TagProps {
   bg: string; // e.g., "bg-pink-500/20 text-pink-400"
 }
 
+interface PortfolioCardProps {
+  iconColor: string;
+  gradient: string;
+  tag: TagProps;
+  title: string;
+  description: string;
+  date: string;
+  location: string;
+  images: readonly string[];
+}
+
 export function PortfolioCard({
-  icon: LucideIcon,
-  iconColor,
-  gradient,
-  tag,
-  title,
-  description,
-  date,
-  location,
-  images
-}: any) {
+  gradient, tag, title, description, date, location, images, iconColor
+}: PortfolioCardProps) {
   return (
     <div
       className={`min-w-[250px] rounded-2xl overflow-hidden shadow-lg bg-gradient-to-br ${gradient}`}
     >
 
-      <ScrollableImageGallery images={images} key={title} />
+      <ScrollableImageGallery images={[...images]} key={title} />
       <div className="md:p-6 p-2">
         <div className="mb-2 text-start ">
           <span className={`${gradient} font-semibold ${iconColor} px-2 py-1 rounded text-xs font-semibold`}>{tag.text}</span>

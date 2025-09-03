@@ -1,14 +1,7 @@
-
-
-import BadgeTag from "@/components/BadgeTag";
 import { PortfolioCard } from "@/components/cards/PorfolioScrollable";
-import ScrollableImageGallery from "@/components/ui/ImageScroll";
 import { ScrollableCardWrapper } from "@/components/ui/scrollable-wrapper";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { videosData } from "@/lib/data";
-import { ArrowRight, Heart, Building2, Users, Sparkles, Calendar } from "lucide-react";
-
-const dummyImages = ["/hero-magical-event.jpg", "/hero-magical-event.jpg", "/hero-magical-event.jpg"]
+import { Building2, Calendar, Heart, Sparkles, Users } from "lucide-react";
 
 const portfolioItems = [
   {
@@ -158,7 +151,7 @@ export default function PortfolioSection() {
         />
 
         {/* Portfolio Grid */}
-        <ScrollableCardWrapper classNamed="mt-5" >
+        <ScrollableCardWrapper className="mt-5" >
           {portfolioItems.map((item) => (
             <PortfolioCard key={item.title} {...item} />
           ))}

@@ -1,7 +1,8 @@
 "use client";
-import { useState, useEffect } from "react";
-import Image from "next/image";
+
+import { useEffect, useState, useRef } from "react";
 import { useMutation } from "@tanstack/react-query";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
 const eventNames: string[] = [
@@ -15,15 +16,26 @@ const eventNames: string[] = [
   "Music Concert",
 ];
 
-
-
-interface CapturedMovementProps {
-  movementdata: any[];
+interface MovementImage {
+  id: string;
+  name: string;
+  filename: string;
+  format: string;
+  url: string;
 }
 
-// Fetch function for mutation
-async function fetchMovements({ page, category }: { page: number; category: string }) {
-  const res = await fetch("/api/movement", {
+interface CapturedMovementProps {
+  // If you want to accept initial props, can add here
+}
+
+async function fetchMovements({
+  page,
+  category,
+}: {
+  page: number;
+  category: string;
+}) {
+  const res = await fetch(`/api/movement`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -37,37 +49,43 @@ async function fetchMovements({ page, category }: { page: number; category: stri
   return data.resources || [];
 }
 
-export default function CapturedMovement({ movementdata }: CapturedMovementProps) {
+export default function CapturedMovement({ }: CapturedMovementProps) {
   const [selectedEvent, setSelectedEvent] = useState<string>("wedding");
   const [page, setPage] = useState<number>(1);
-  const [capturedEvents, setCapturedEvents] = useState<any[]>(movementdata || []);
+  const [capturedEvents, setCapturedEvents] = useState<MovementImage[]>([]);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const hasLoadedRef = useRef(false);
 
-  const mutation = useMutation({
+  const { mutate, isPending, isError, error } = useMutation({
     mutationFn: ({ page, category }: { page: number; category: string }) =>
       fetchMovements({ page, category }),
     onSuccess: (newData, variables) => {
+      setErrorMessage(null);
       if (variables.page === 1) {
         setCapturedEvents(newData); // reset list on first page
       } else {
         setCapturedEvents((prev) => [...prev, ...newData]); // append next page
       }
     },
-    onError: (error: any) => {
-      console.error("Error fetching movements:", error.message);
+    onError: (error: Error) => {
+      setErrorMessage(error.message);
     },
   });
 
-  // When event changes, reset page and fetch first page
+  // Initial fetch on mount or when selectedEvent changes
   useEffect(() => {
-    setPage(1);
-    mutation.mutate({ page: 1, category: selectedEvent });
-  }, [selectedEvent]);
+    if (!hasLoadedRef.current) {
+      hasLoadedRef.current = true;
+      mutate({ page: 1, category: selectedEvent });
+      setPage(1);
+    }
+  }, [selectedEvent, mutate]);
 
-  // Load More
+  // Load More handler
   const handleLoadMore = () => {
     const nextPage = page + 1;
     setPage(nextPage);
-    mutation.mutate({ page: nextPage, category: selectedEvent });
+    mutate({ page: nextPage, category: selectedEvent });
   };
 
   return (
@@ -85,7 +103,10 @@ export default function CapturedMovement({ movementdata }: CapturedMovementProps
         {eventNames.map((item) => (
           <button
             key={item}
-            onClick={() => setSelectedEvent(item)}
+            onClick={() => {
+              setSelectedEvent(item);
+              hasLoadedRef.current = false; // reset fetch flag to allow new fetch on event change
+            }}
             className="relative cursor-pointer text-emerald-700 font-medium text-base md:text-lg"
           >
             {item}
@@ -122,17 +143,17 @@ export default function CapturedMovement({ movementdata }: CapturedMovementProps
           <Button
             variant="gold"
             onClick={handleLoadMore}
-            disabled={mutation.isPending}
+            disabled={isPending}
             className="cursor-pointer"
           >
-            {mutation.isPending ? "Loading..." : "Load More"}
+            {isPending ? "Loading..." : "Load More"}
           </Button>
         </div>
       )}
 
       {/* Error Message */}
-      {mutation.isError && (
-        <p className="text-red-500 mt-4">{(mutation.error as Error).message}</p>
+      {(isError || errorMessage) && (
+        <p className="text-red-500 mt-4">{errorMessage || (error as Error).message}</p>
       )}
     </div>
   );

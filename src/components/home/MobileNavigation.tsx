@@ -1,5 +1,5 @@
 import Button from "@/components/buttons/Button";
-import { Home, Sparkles, Camera, MessageCircle, Menu } from "lucide-react";
+import { Camera, Home, Menu, MessageCircle, Sparkles } from "lucide-react";
 const MobileNavigation = () => {
   const navItems = [
     { icon: Home, label: "Home", active: true },

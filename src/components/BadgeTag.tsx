@@ -1,6 +1,6 @@
 // components/BadgeTag.tsx
 // import { cn } from "@/lib/utils"; // optional utility if you use shadcn
-import { icons, LucideIcon } from "lucide-react"
+import { LucideIcon } from "lucide-react"
 
 interface BadgeTagProps {
   icon: LucideIcon | null;
@@ -20,5 +20,3 @@ export default function BadgeTag({ icon: Icon, text, className = "inline-flex it
     </div>
   );
 }
-
-
