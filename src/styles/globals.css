@@ -1,0 +1,296 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/forms';
+
+/* ==================================================
+   Global stylesheet - Single fixed dark "magical"
+   - Removed theme toggles/data-theme variants
+   - One consistent dark palette and glassy gradients
+   ================================================== */
+
+:root {
+  /* Font stack (referenced by font-face below) */
+  --font-primary: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+
+  /* Primary Magical Palette (fixed dark scheme) */
+  --color-primary-50: oklch(0.97 0.024 270);
+  --color-primary-100: oklch(0.94 0.05 270);
+  --color-primary-200: oklch(0.86 0.1 270);
+  --color-primary-300: oklch(0.76 0.15 270);
+  --color-primary-400: oklch(0.7 0.19 270);
+  --color-primary-500: oklch(0.61 0.22 270);
+  --color-primary-600: oklch(0.52 0.2 270);
+  --color-primary-700: oklch(0.43 0.18 270);
+  --color-primary-800: oklch(0.37 0.15 270);
+  --color-primary-900: oklch(0.31 0.12 270);
+  --color-primary-950: oklch(0.18 0.07 270);
+
+  /* Fixed background (dark-magical) */
+  --background: 220 25% 6%;
+  --foreground: 220 15% 95%;
+
+  /* Card / glass variables */
+  --card: 220 25% 8%;
+  --card-foreground: 220 15% 95%;
+
+  /* Accent & gold */
+  --accent: 270 100% 75%;
+  --accent-foreground: 220 25% 6%;
+  --gold: 45 100% 65%;
+
+  /* Shadows */
+  --shadow-magical: 0 25px 50px -12px rgba(96, 39, 255, 0.25);
+  --shadow-glow: 0 0 40px rgba(96, 39, 255, 0.35);
+  --shadow-card: 0 10px 30px -5px rgba(0,0,0,0.6);
+
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, hsl(240 100% 70%), hsl(270 100% 75%));
+ --gradient-dark: linear-gradient(
+    135deg,
+    rgba(10, 10, 14, 1) 0%,
+    rgba(20, 20, 28, 1) 50%,
+    rgba(5, 5, 8, 1) 100%
+  );
+
+  /* Radius */
+  --radius: 0.75rem;
+
+  /* Transition tokens */
+  --transition-magical: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==================================================
+   Animations
+   ================================================== */
+@keyframes flicker {
+  0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
+    opacity: 0.99;
+    filter: drop-shadow(0 0 1px rgba(252,211,77,0.9)) drop-shadow(0 0 15px rgba(245,158,11,0.6)) drop-shadow(0 0 1px rgba(252,211,77,0.9));
+  }
+  20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
+    opacity: 0.4;
+    filter: none;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.6; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -700px 0; }
+  100% { background-position: 700px 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes border-spin {
+  to { --angle: 360deg; }
+}
+
+@keyframes border-rotate {
+  0% { transform: rotateZ(0deg); }
+  100% { transform: rotateZ(360deg); }
+}
+
+/* ==================================================
+   Base layer & typography
+   ================================================== */
+@layer base {
+  /* Inter variable font */
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url('/fonts/inter-var-latin.woff2') format('woff2');
+  }
+
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+body {
+  background: var(--gradient-dark);
+  background-color: hsl(var(--background)); /* fallback solid dark color */
+  font-family: var(--font-primary);
+  color: hsl(var(--foreground));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+  /* Utility typography helpers */
+  .h0 { @apply text-3xl md:text-5xl font-bold; }
+  h1, .h1 { @apply text-2xl md:text-4xl font-bold; }
+  h2, .h2 { @apply text-xl md:text-3xl font-bold; }
+  h3, .h3 { @apply text-lg md:text-2xl font-bold; }
+  h4, .h4 { @apply text-base md:text-lg font-bold; }
+  body, .p { @apply text-sm md:text-base; }
+
+  /* Global helpers */
+  .layout { max-width: 68.75rem; @apply mx-auto w-11/12; }
+  .min-h-main { @apply min-h-[calc(100vh-56px)]; }
+
+  .cursor-newtab { cursor: url('/images/new-tab.png') 10 10, pointer; }
+}
+
+/* ==================================================
+   Components (buttons, cards, glass)
+   ================================================== */
+@layer components {
+  /* Buttons */
+  .btn-magical {
+    background: var(--gradient-primary);
+    color: white;
+    box-shadow: var(--shadow-magical);
+    transition: var(--transition-magical);
+    border: 0;
+    backdrop-filter: blur(4px);
+    padding: .6rem 1.2rem;
+    border-radius: calc(var(--radius) + 0.25rem);
+  }
+  .btn-magical:hover { box-shadow: var(--shadow-glow); transform: scale(1.05); }
+
+  .btn-hero {
+    background-image: linear-gradient(to right, rgba(96,39,255,0.92), rgba(245,158,11,0.85));
+    color: white;
+    box-shadow: 0 20px 40px -10px rgba(96,39,255,0.2);
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    border: 1px solid rgba(96,39,255,0.18);
+    backdrop-filter: blur(8px);
+    padding: .6rem 1.2rem;
+    border-radius: calc(var(--radius) + 0.25rem);
+  }
+  .btn-hero:hover { box-shadow: var(--shadow-glow); transform: scale(1.08); }
+
+  .btn-ghost-magical {
+    background-color: rgba(255,255,255,0.02);
+    color: white;
+    border: 1px solid rgba(96,39,255,0.18);
+    transition: var(--transition-smooth);
+    backdrop-filter: blur(4px);
+    padding: .55rem 1rem;
+    border-radius: calc(var(--radius) - 0.15rem);
+  }
+  .btn-ghost-magical:hover {
+    background-color: rgba(96,39,255,0.09);
+    border-color: rgba(96,39,255,0.32);
+  }
+
+  /* Card magical */
+  .card-magical {
+    background: var(--gradient-card);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(96,39,255,0.08);
+    box-shadow: var(--shadow-card);
+    transition: var(--transition-magical);
+    border-radius: calc(var(--radius) - 0.1rem);
+  }
+  .card-magical:hover { transform: scale(1.03); box-shadow: var(--shadow-magical); }
+
+  .card-glow { position: relative; overflow: hidden; }
+  .card-glow::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: linear-gradient(90deg, rgba(96,39,255,0.06), rgba(245,158,11,0.05));
+    opacity: 0; transition: opacity .45s ease; pointer-events: none;
+  }
+  .card-glow:hover::before { opacity: 1; }
+
+  /* Floating helper */
+  .float-animation { animation: float 6s ease-in-out infinite; }
+
+  /* Magical glow background for a component */
+  .magical-glow { position: relative; }
+  .magical-glow::before {
+    content: '';
+    position: absolute; inset: -20%;
+    border-radius: 9999px;
+    background: linear-gradient(90deg, rgba(96,39,255,0.15), rgba(245,158,11,0.12));
+    filter: blur(18px);
+    opacity: 0.18;
+    animation: pulse 3s linear infinite;
+    z-index: -10; pointer-events: none;
+  }
+
+  /* Text gradients */
+  .text-gradient {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .text-gold-gradient {
+    background: linear-gradient(90deg, #facc15, #d97706);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+
+  /* Glass morphism */
+  .glass {
+    background-color: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.03);
+    box-shadow: var(--shadow-card);
+    border-radius: calc(var(--radius) - 0.1rem);
+  }
+
+  /* Bottom nav for mobile */
+  .bottom-nav {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
+    background-color: rgba(0,0,0,0.6); backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(255,255,255,0.03);
+    box-shadow: 0 -10px 30px -5px rgba(0,0,0,0.5);
+  }
+
+  /* Reusable magical card (converted from original) */
+  .magical-card-glowingg {
+    @apply relative w-[190px] h-[254px] overflow-visible perspective-[1000px] shadow-lg rounded-md bg-neutral-900 text-white;
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+  }
+
+  /* Animated border helpers (used by components) */
+  .animate-border-rotate { animation: border-rotate 5s linear infinite; }
+  .animate-float { animation: float 2.6s linear infinite; }
+  .animate-border-spin { --angle: 0deg; animation: border-spin 4s linear infinite; }
+}
+
+/* ==================================================
+   Utilities
+   ================================================== */
+@layer utilities {
+  .animated-underline {
+    background-image: linear-gradient(#0000, #0000), linear-gradient(to right, rgba(96,39,255,1), rgba(245,158,11,1));
+    background-size: 100% 2px, 0 2px;
+    background-position: 100% 100%, 0 100%;
+    background-repeat: no-repeat;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .animated-underline { transition: 0.3s ease; transition-property: background-size, color, background-color, border-color; }
+  }
+  .animated-underline:hover, .animated-underline:focus-visible { background-size: 0 2px, 100% 2px; }
+
+  /* Simple utilities to expose animations */
+  .shadow-magical { box-shadow: var(--shadow-magical) !important; }
+  .glow-strong { box-shadow: var(--shadow-glow) !important; }
+}
+
+/* Extra small helpers (non-Tailwind-friendly) */
+/* Provide a modern scrollbar-hide fallback for non-plugin setups */
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+
+/* Ensure images in components behave */
+img.object-cover { object-fit: cover; object-position: center; }
+
+/* Accessibility: reduced motion respect */
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+}
+
+/* End of global-fixed-dark.css */

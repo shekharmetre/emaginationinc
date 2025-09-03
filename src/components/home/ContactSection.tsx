@@ -1,0 +1,197 @@
+"use client";
+
+import { useState, type FormEvent } from "react";
+import { Phone, Mail, MapPin, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+
+type ContactForm = {
+  name: string;
+  email: string;
+  eventType: string;
+  message: string;
+};
+
+const contactMethods = [
+  {
+    icon: Phone,
+    title: "Call Us",
+    value: "+1 (555) 123-4567",
+    gradient: "from-purple-600 to-blue-700",
+  },
+  {
+    icon: Mail,
+    title: "Email Us",
+    value: "hello@brewmagicevents.com",
+    gradient: "from-amber-500 to-orange-600",
+  },
+  {
+    icon: MapPin,
+    title: "Visit Us",
+    value: "123 Magic Avenue, Event City, EC 12345",
+    gradient: "from-emerald-500 to-blue-600",
+  },
+] as const;
+
+const initialForm: ContactForm = {
+  name: "",
+  email: "",
+  eventType: "",
+  message: "",
+};
+
+export default function ContactSection() {
+  const [formData, setFormData] = useState<ContactForm>(initialForm);
+  const [errors, setErrors] = useState<Partial<Record<keyof ContactForm, string>>>({});
+  const [submitting, setSubmitting] = useState(false);
+  const [sent, setSent] = useState<null | "ok" | "error">(null);
+
+  const fieldCfg: Array<{ name: keyof ContactForm; placeholder: string; type: "text" | "email" }> = [
+    { name: "name", placeholder: "Your Name", type: "text" },
+    { name: "email", placeholder: "Email Address", type: "email" },
+    { name: "eventType", placeholder: "Event Type", type: "text" },
+  ];
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((p) => ({ ...p, [name]: value }));
+    // clear field error on change
+    if (errors[name as keyof ContactForm]) {
+      setErrors((prev) => ({ ...prev, [name]: undefined }));
+    }
+  };
+
+  const validate = (data: ContactForm) => {
+    const errs: Partial<Record<keyof ContactForm, string>> = {};
+    if (!data.name.trim()) errs.name = "Name is required";
+    if (!data.email.trim()) errs.email = "Email is required";
+    else if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(data.email)) errs.email = "Enter a valid email";
+    if (!data.eventType.trim()) errs.eventType = "Event type is required";
+    if (!data.message.trim()) errs.message = "Please add a short message";
+    return errs;
+  };
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    const errs = validate(formData);
+    setErrors(errs);
+    if (Object.keys(errs).length) return;
+
+    setSubmitting(true);
+    setSent(null);
+    try {
+      // TODO: replace with your API call / email service
+      // await fetch("/api/contact", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify(formData),
+      // });
+      console.log("Submitting contact form:", formData);
+      setSent("ok");
+      setFormData(initialForm);
+    } catch (_err) {
+      setSent("error");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <section id="contact" className="py-24 bg-gradient-to-t from-black to-gray-900/50">
+      <div className="container mx-auto px-4">
+        <div className="max-w-4xl mx-auto">
+          {/* Header */}
+          <div className="text-center mb-16">
+            <div className="mb-4 inline-block border border-gray-600 text-gray-300 px-3 py-1 rounded-full text-sm">
+              Get In Touch
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
+              Let's Create{" "}
+              <span className="bg-gradient-to-r from-purple-600 to-blue-700 bg-clip-text text-transparent">
+                Magic
+              </span>{" "}
+              Together
+            </h2>
+            <p className="text-xl text-gray-300">
+              Ready to transform your vision into an extraordinary experience? We're here to bring your dreams to life.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-12">
+            {/* Contact Form */}
+            <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg p-6 shadow-lg">
+              <div className="mb-6">
+                <h3 className="text-xl font-semibold text-white mb-2">Start Your Journey</h3>
+                <p className="text-gray-400">Tell us about your dream event</p>
+              </div>
+
+              <form onSubmit={handleSubmit} className="space-y-4">
+                {fieldCfg.map((f) => (
+                  <div key={f.name} className="space-y-1">
+                    <input
+                      name={f.name}
+                      type={f.type}
+                      placeholder={f.placeholder}
+                      value={formData[f.name]}
+                      onChange={handleChange}
+                      aria-invalid={!!errors[f.name]}
+                      className="w-full bg-black/50 border border-gray-700 rounded-md px-3 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    />
+                    {errors[f.name] && (
+                      <p className="text-sm text-red-400">{errors[f.name]}</p>
+                    )}
+                  </div>
+                ))}
+
+                <div className="space-y-1">
+                  <textarea
+                    name="message"
+                    placeholder="Tell us about your vision..."
+                    value={formData.message}
+                    onChange={handleChange}
+                    aria-invalid={!!errors.message}
+                    className="w-full bg-black/50 border border-gray-700 rounded-md px-3 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 min-h-32 resize-none"
+                  />
+                  {errors.message && (
+                    <p className="text-sm text-red-400">{errors.message}</p>
+                  )}
+                </div>
+
+                <Button type="submit" size="lg" className="w-full" disabled={submitting}>
+                  {submitting ? "Sending..." : "Send Message"}
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+
+                {sent === "ok" && (
+                  <div className="text-sm text-emerald-400">Thanks! We’ll get back to you soon.</div>
+                )}
+                {sent === "error" && (
+                  <div className="text-sm text-red-400">Something went wrong. Please try again.</div>
+                )}
+              </form>
+            </div>
+
+            {/* Contact Info Cards */}
+            <div className="space-y-8">
+              {contactMethods.map(({ icon: Icon, title, value, gradient }) => (
+                <div key={title} className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg p-6 shadow-lg">
+                  <div className="flex items-center space-x-4">
+                    <div className={`w-12 h-12 bg-gradient-to-r ${gradient} rounded-full flex items-center justify-center`}>
+                      <Icon className="h-6 w-6 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-white">{title}</h3>
+                      <p className="text-gray-400">{value}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
