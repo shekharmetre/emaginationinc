@@ -142,7 +142,7 @@ export default function PortfolioSection() {
     <section className="md:py-24 py-16 bg-gradient-to-b from-gray-900/50 to-black">
       <div className="container text-center mx-auto md:px-4 px-2">
         <SectionHeader
-          badgeIcon={Sparkles}
+          badgeIcon={<Sparkles />}
           badgeText="Our Portfolio"
           title="Where dreams become"
           highlight="reality"

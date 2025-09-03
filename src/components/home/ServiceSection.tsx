@@ -58,7 +58,7 @@ const ServicesSection = () => {
 
       <div className="container mx-auto relative z-10">
         {/* Section Header */}
-        <SectionHeader title="Magical experiences for every" highlight="occassions" badgeIcon={Sparkles} titleClassName="text-3xl " badgeText="Our Services" description="From Initionmate gatherings to grand celebrations,we transform your vision into reality with our comprehensive event Management services" />
+        <SectionHeader title="Magical experiences for every" highlight="occassions" badgeIcon={<Sparkles />} titleClassName="text-3xl " badgeText="Our Services" description="From Initionmate gatherings to grand celebrations,we transform your vision into reality with our comprehensive event Management services" />
 
         <ScrollableCardWrapper className="md:mt-5 mt-2">
           {services.map((item) => (

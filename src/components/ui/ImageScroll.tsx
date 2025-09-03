@@ -69,19 +69,22 @@ export default function ScrollableImageGallery({
         onScroll={handleScroll}
         className="flex gap-4 overflow-x-auto scroll-smooth scrollbar-hide lg:overflow-hidden snap-x snap-mandatory"
       >
-        {images.map((src, idx) => (
-          <div
-            key={idx}
-            className="relative flex-shrink-0 w-full h-48 md:h-64 rounded-2xl overflow-hidden snap-center"
-          >
-            <Image
-              src={src}
-              alt={`Gallery ${idx}`}
-              fill
-              className="object-cover"
-            />
-          </div>
-        ))}
+        {images.map(
+          (src, idx) =>
+            src && ( // Add a check to ensure src is not an empty string
+              <div
+                key={idx}
+                className="relative flex-shrink-0 w-full h-48 md:h-64 rounded-2xl overflow-hidden snap-center"
+              >
+                <Image
+                  src={src}
+                  alt={`Gallery image ${idx + 1}`}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            )
+        )}
       </div>
 
       {/* Desktop navigation buttons */}

@@ -1,7 +1,7 @@
 export const siteConfig = {
-  title: 'RetailRelay — POS + CRM That Moves With You',
+  title: 'emaginationInc',
   description:
-    'Pocket CRM + POS for retailers/wholesalers: invoices, returns, and inventory in seconds',
+    'A new space where magic is re-imagined',
   /** Without additional '/' on the end, e.g. https://theodorusclarence.com */
   url: 'https://tsnext-tw.thcl.dev',
 };
