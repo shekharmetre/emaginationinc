@@ -7,6 +7,7 @@ import { siteConfig } from '@/constant/config';
 // !STARTERCONF This is for demo purposes, remove @/styles/colors.css import immediately
 import '@/styles/colors.css';
 import '@/styles/globals.css';
+import DesktopNavigation from '@/components/home/DesktopNavigation';
 
 // !STARTERCONF Change these default meta
 // !STARTERCONF Look at @/constant/config to change them

@@ -5,8 +5,8 @@ import { useEffect, useState } from "react";
 import Button from "@/components/buttons/Button";
 import { MenuIcon, Sparkles } from "lucide-react";
 
-const DesktopNavigation = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
+const DesktopNavigation = ({ scroll }: { scroll?: boolean }) => {
+  const [isScrolled, setIsScrolled] = useState(scroll || false);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -54,7 +54,7 @@ const DesktopNavigation = () => {
               </Button>
             ))}
           </nav>
-          <MenuIcon className="md:hidden block " />
+          <MenuIcon className="md:hidden block text-white" />
 
           {/* CTA Button */}
           <Button variant="primary" className="hidden md:block">

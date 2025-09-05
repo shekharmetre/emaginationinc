@@ -8,12 +8,16 @@ interface ScrollableImageGalleryProps {
   images: string[];
   autoScroll?: boolean; // enable/disable auto scroll
   interval?: number; // time in ms
+  className?: string;
+  imageClassName?: string;
 }
 
 export default function ScrollableImageGallery({
   images,
   autoScroll = true,
   interval = 3000,
+  className,
+  imageClassName = "rounded-2xl ",
 }: ScrollableImageGalleryProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -62,7 +66,7 @@ export default function ScrollableImageGallery({
   };
 
   return (
-    <div className="relative w-full">
+    <div className={`relative w-full ${className}`}>
       {/* Scrollable container */}
       <div
         ref={scrollRef}
@@ -74,7 +78,7 @@ export default function ScrollableImageGallery({
             src && ( // Add a check to ensure src is not an empty string
               <div
                 key={idx}
-                className="relative flex-shrink-0 w-full h-48 md:h-64 rounded-2xl overflow-hidden snap-center"
+                className={`relative flex-shrink-0 w-full h-48 md:h-64 overflow-hidden snap-center ${imageClassName}`}
               >
                 <Image
                   src={src}
