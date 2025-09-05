@@ -20,7 +20,7 @@ export function ServiceCard({
   onLearnMore,
 }: ServiceCardProps) {
   return (
-    <div className={`md:min-w-[250px] h-full min-w-[200px] p-2 rounded-2xl overflow-hidden shadow-lg bg-gradient-to-br ${gradient}`}>
+    <div className={`min-w-[250px] h-full p-2 rounded-2xl overflow-hidden shadow-lg bg-gradient-to-br ${gradient}`}>
       <div className="text-center mb-4">
         <div
           className={`w-10 md:w-12 md:h-16 h-10 mx-auto mb-4 rounded-full bg-gradient-to-r ${gradient} flex items-center justify-center`}
@@ -28,7 +28,7 @@ export function ServiceCard({
           <Icon className="md:h-8 md:w-8 w-5 h-5 text-white" />
         </div>
         <h3 className="md:text-xl text-md font-semibold text-white mb-2">{title}</h3>
-        <p className="text-white/70 md:text-sm text-xs md:text-center text-start md:mb-4 mb-2">{description}</p>
+        <p className="  text-white/70 md:text-sm text-xs md:text-center text-start md:mb-4 mb-2">{description}</p>
       </div>
 
       <div className="text-center">

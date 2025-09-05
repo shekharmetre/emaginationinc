@@ -4,6 +4,7 @@ import BadgeTag from "@/components/BadgeTag";
 import Button from "@/components/buttons/Button";
 import { motion, Variants } from "framer-motion";
 import { ArrowRight, Play, Sparkles } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 40 },
@@ -19,6 +20,7 @@ const fadeUp: Variants = {
 };
 
 const HeroSection = () => {
+  const router = useRouter()
   return (
     <section className="relative min-h-screen flex items-center justify-center md:justify-center overflow-hidden">
       {/* Background Image with Overlay */}
@@ -124,6 +126,7 @@ const HeroSection = () => {
             className="flex flex-col sm:flex-row gap-4 justify-center items-center md:mb-16 mb-6"
           >
             <Button
+              onClick={() => { router.push('/event') }}
               className="relative inline-flex items-center gap-2 px-8 py-3 text-lg font-semibold text-white 
                bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 rounded-2xl 
                shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 group"
