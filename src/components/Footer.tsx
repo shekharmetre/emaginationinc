@@ -10,7 +10,7 @@ export default function Footer() {
 
         {/* Brand */}
         <div>
-          <h2 className="text-2xl font-bold">✨ EventMagic</h2>
+          <h2 className="text-2xl font-bold">✨ emaginationInc</h2>
           <p className="mt-2 text-sm text-gray-300">
             Where Magic is Re-imagined
           </p>

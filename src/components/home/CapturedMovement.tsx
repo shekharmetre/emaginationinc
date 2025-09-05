@@ -109,7 +109,7 @@ export default function CapturedMovement({ }: CapturedMovementProps) {
       whileInView="visible"
       viewport={{ once: true, amount: 0.1 }}
     >
-      <motion.h1 variants={itemVariants} className="md:text-5xl text-4xl font-bold">
+      <motion.h1 variants={itemVariants} className="md:text-5xl text-4xl font-bold text-white">
         Captured{" "}
         <span className="bg-gradient-to-r from-pink-600 to-red-400 bg-clip-text text-transparent">
           Movement

@@ -73,7 +73,7 @@ const HeroSection = () => {
             animate="visible"
             variants={fadeUp}
             custom={1}
-            className="text-[2.5rem] md:text-6xl lg:text-7xl font-bold md:mb-6 text-center"
+            className="text-[2.5rem] md:text-6xl lg:text-7xl font-bold md:mb-6 md:text-center text-start"
           >
             <span className="text-white">Fresh ideas are </span>
             <span className="relative inline-block">
@@ -170,10 +170,10 @@ const HeroSection = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.2, duration: 0.6 }}
-        className="absolute md:bottom-8 bottom-16 left-1/2 transform -translate-x-1/2 animate-bounce"
+        className="absolute text-white md:bottom-8 bottom-16 left-1/2 transform -translate-x-1/2 animate-bounce"
       >
-        <div className="w-6 h-10 border-2 border-primary/50 rounded-full flex justify-center">
-          <div className="w-1 h-3 bg-primary rounded-full mt-2"></div>
+        <div className="w-6 h-10 border-2 text-white  border-white rounded-full flex justify-center">
+          <div className="w-1 h-3 bg-white rounded-full mt-2"></div>
         </div>
       </motion.div>
     </section>

@@ -4,6 +4,7 @@ import BadgeTag from "@/components/BadgeTag";
 import React, { ReactNode } from "react";
 import { ArrowRight, LucideIcon } from "lucide-react";
 import { motion } from "framer-motion";
+import { Sparkles } from "lucide-react"
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -39,6 +40,7 @@ export function SectionHeader({
   buttonText,
   onButtonClick,
   titleClassName,
+  badgeText,
   buttonIcon = <ArrowRight className="ml-2 h-5 w-5 inline" />,
 }: SectionHeaderProps) {
   return (
@@ -48,9 +50,10 @@ export function SectionHeader({
       initial="hidden"
       whileInView="visible"
       viewport={{ once: false, amount: 0.3 }}
+
     >
       <motion.div variants={itemVariants}>
-        {badgeIcon ?? <BadgeTag icon={badgeIcon || null} text="Our Portfolio" />}
+        <BadgeTag icon={Sparkles} text={badgeText ? badgeText : "Our Portfolio"} />
       </motion.div>
 
       <motion.h2
